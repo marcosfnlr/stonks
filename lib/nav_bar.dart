@@ -12,6 +12,8 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      currentIndex: selectedOption.index,
+      onTap: onTap,
       items: NavigationOption.values
           .map(
             (opt) => BottomNavigationBarItem(
@@ -21,8 +23,6 @@ class NavBar extends StatelessWidget {
             ),
           )
           .toList(),
-      currentIndex: selectedOption.index,
-      onTap: onTap,
     );
   }
 }

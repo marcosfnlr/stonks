@@ -18,17 +18,37 @@ class _ScreenState extends State<Screen> {
   NavigationOption _selectedScreen = NavigationOption.home;
 
   void onNavItemTap(int index) {
-    if (index == NavigationOption.logout.index) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
-        ),
-      );
-    } else {
-      setState(() {
-        _selectedScreen = NavigationOption.values[index];
-      });
-    }
+    setState(() {
+      _selectedScreen = NavigationOption.values[index];
+    });
+  }
+
+  Widget _buildLogoutAlert(BuildContext context) {
+    return Theme(
+      data: Theme.of(context).copyWith(colorScheme: _selectedScreen.colors),
+      child: AlertDialog(
+        title: const Text('Logout'),
+        content: const Text('Sure you wanna leave us?'),
+        actions: <Widget>[
+          TextButton.icon(
+            onPressed: () => Navigator.pop(context, true),
+            icon: const Text('Stay'),
+            label: const Icon(Icons.sentiment_very_satisfied),
+          ),
+          TextButton.icon(
+            onPressed: () => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LoginScreen(),
+              ),
+              ((_) => false),
+            ),
+            icon: const Text('Leave'),
+            label: const Icon(Icons.heart_broken),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -44,6 +64,16 @@ class _ScreenState extends State<Screen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.user.name),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.logout),
+              tooltip: 'Logout',
+              onPressed: () => showDialog<bool>(
+                context: context,
+                builder: _buildLogoutAlert,
+              ),
+            ),
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),

@@ -4,7 +4,7 @@ enum NavigationOption {
   profile,
   home,
   stocks,
-  logout,
+  dummy,
 }
 
 extension NavigationOptionExtension on NavigationOption {
@@ -16,8 +16,8 @@ extension NavigationOptionExtension on NavigationOption {
         return const Icon(Icons.trending_up);
       case NavigationOption.profile:
         return const Icon(Icons.person);
-      case NavigationOption.logout:
-        return const Icon(Icons.logout);
+      case NavigationOption.dummy:
+        return const Icon(Icons.sports_volleyball);
     }
   }
 
@@ -29,8 +29,8 @@ extension NavigationOptionExtension on NavigationOption {
         return 'Stocks';
       case NavigationOption.profile:
         return 'Profile';
-      case NavigationOption.logout:
-        return 'Logout';
+      case NavigationOption.dummy:
+        return 'Volley';
     }
   }
 
@@ -90,8 +90,8 @@ extension NavigationOptionExtension on NavigationOption {
   );
 
   static const ColorScheme _defaultColorScheme = ColorScheme(
-    primary: Color(0xffFA58B6),
-    surface: Color(0xff7A0BC0),
+    primary: Colors.green,
+    surface: Colors.green,
     background: Color(0xff270082),
     secondary: Color(0xff1A1A40),
     error: Color.fromARGB(255, 255, 0, 221),
@@ -100,6 +100,6 @@ extension NavigationOptionExtension on NavigationOption {
     onSurface: Color(0xffffffff),
     onBackground: Color(0xffffffff),
     onError: Color(0xffffffff),
-    brightness: Brightness.dark,
+    brightness: Brightness.light,
   );
 }
