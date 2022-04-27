@@ -102,6 +102,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  our_structures:
+    dependency: "direct main"
+    description:
+      path: "/home/marcos/Batata/our_structures"
+      relative: false
+    source: path
+    version: "1.0.0"
   path:
     dependency: transitive
     description:
