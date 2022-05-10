@@ -37,69 +37,25 @@ extension NavigationOptionExtension on NavigationOption {
   ColorScheme get colors {
     switch (this) {
       case NavigationOption.profile:
-        return _profileColorScheme;
+        return ColorScheme.fromSeed(
+          seedColor: const Color(0xffFA58B6),
+          brightness: Brightness.dark,
+          primary: const Color(0xffFA58B6),
+        );
       case NavigationOption.home:
-        return _homeColorScheme;
+        return ColorScheme.fromSeed(
+          seedColor: const Color(0xff7A0BC0),
+        );
       case NavigationOption.stocks:
-        return _stocksColorScheme;
+        return ColorScheme.fromSeed(
+          seedColor: const Color(0xff0B09A0),
+        );
       default:
-        return _defaultColorScheme;
+        return ColorScheme.fromSeed(
+          seedColor: Colors.green,
+          brightness: Brightness.dark,
+          primary: Colors.green,
+        );
     }
   }
-
-  static const ColorScheme _profileColorScheme = ColorScheme(
-    primary: Color(0xffFA58B6),
-    surface: Color(0xffFA58B6),
-    background: Color(0xff270082),
-    secondary: Color(0xff1A1A40),
-    error: Color.fromARGB(255, 255, 0, 221),
-    onPrimary: Color(0xff000000),
-    onSecondary: Color(0xff000000),
-    onSurface: Color(0xffffffff),
-    onBackground: Color(0xffffffff),
-    onError: Color(0xffffffff),
-    brightness: Brightness.dark,
-  );
-
-  static const ColorScheme _homeColorScheme = ColorScheme(
-    primary: Color(0xff7A0BC0),
-    surface: Color(0xff7A0BC0),
-    background: Color(0xff270082),
-    secondary: Color(0xff1A1A40),
-    error: Color.fromARGB(255, 255, 0, 221),
-    onPrimary: Color(0xff000000),
-    onSecondary: Color(0xff000000),
-    onSurface: Color(0xffffffff),
-    onBackground: Color(0xffffffff),
-    onError: Color(0xffffffff),
-    brightness: Brightness.dark,
-  );
-
-  static const ColorScheme _stocksColorScheme = ColorScheme(
-    primary: Color(0xff270082),
-    surface: Color(0xff270082),
-    background: Color(0xff00FF00),
-    secondary: Color(0xff1A1A40),
-    error: Color.fromARGB(255, 255, 0, 221),
-    onPrimary: Color(0xff000000),
-    onSecondary: Color(0xff000000),
-    onSurface: Color(0xffffffff),
-    onBackground: Color(0xffffffff),
-    onError: Color(0xffffffff),
-    brightness: Brightness.dark,
-  );
-
-  static const ColorScheme _defaultColorScheme = ColorScheme(
-    primary: Colors.green,
-    surface: Colors.green,
-    background: Color(0xff270082),
-    secondary: Color(0xff1A1A40),
-    error: Color.fromARGB(255, 255, 0, 221),
-    onPrimary: Color(0xff000000),
-    onSecondary: Color(0xff000000),
-    onSurface: Color(0xffffffff),
-    onBackground: Color(0xffffffff),
-    onError: Color(0xffffffff),
-    brightness: Brightness.light,
-  );
 }

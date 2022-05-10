@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => Screen(
-              user: User(_loginController.text, _loginController.text),
+              user: User('Pabllo Vittar', '${_loginController.text}@email.com.br'),
             ),
           ),
         );

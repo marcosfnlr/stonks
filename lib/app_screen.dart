@@ -4,6 +4,7 @@ import 'user.dart';
 import 'nav_option.dart';
 import 'nav_bar.dart';
 import 'login_screen.dart';
+import 'profile_screen.dart';
 
 class Screen extends StatefulWidget {
   const Screen({Key? key, required this.user}) : super(key: key);
@@ -25,7 +26,9 @@ class _ScreenState extends State<Screen> {
 
   Widget _buildLogoutAlert(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(colorScheme: _selectedScreen.colors),
+      data: Theme.of(context).copyWith(
+        colorScheme: _selectedScreen.colors,
+      ),
       child: AlertDialog(
         title: const Text('Logout'),
         content: const Text('Sure you wanna leave us?'),
@@ -56,10 +59,6 @@ class _ScreenState extends State<Screen> {
     return Theme(
       data: ThemeData(
         colorScheme: _selectedScreen.colors,
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          unselectedItemColor: Colors.grey[350],
-          selectedItemColor: Colors.white,
-        ),
       ),
       child: Scaffold(
         appBar: AppBar(
@@ -75,10 +74,7 @@ class _ScreenState extends State<Screen> {
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(widget.user.email),
-        ),
+        body: ProfileScreen(user: widget.user),
         bottomNavigationBar: NavBar(
           selectedOption: _selectedScreen,
           onTap: onNavItemTap,
