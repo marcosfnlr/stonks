@@ -45,7 +45,7 @@ class _SecurityPanelState extends State<SecurityPanel> {
                   ),
                   const ListTile(
                     leading: Icon(Icons.chat),
-                    title: Text('Report a problem'),
+                    title: Text('Report issue'),
                     trailing: Icon(Icons.arrow_forward_ios),
                   ),
                 ],
