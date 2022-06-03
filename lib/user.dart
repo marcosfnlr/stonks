@@ -11,6 +11,10 @@ class User {
       : preferredLanguage = 'English',
         _wallet = Wallet(49.07, Currency.brl);
 
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(json['name']!, json['email']!);
+  }
+
   double get balance {
     return _wallet.balance;
   }

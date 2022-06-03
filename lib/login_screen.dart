@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 import 'app_screen.dart';
 import 'user.dart';
+import 'inprogress_indicator.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -12,6 +17,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _invalidLogin = false;
+  String _invalidMessage = 'Failed';
+  bool _inprogress = false;
+  bool _serverError = false;
+
   final TextEditingController _loginController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
 
@@ -33,24 +42,52 @@ class _LoginScreenState extends State<LoginScreen> {
     return _loginController.text != 'a' || _passController.text != 'a';
   }
 
-  void _onLoginPressed() {
+  void _onLoginPressed() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         _invalidLogin = false;
+        _inprogress = true;
       });
-      if (validateLogin()) {
+      http
+          .post(
+            Uri.parse('http://localhost:5000/auth/login'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, String>{
+              'email': _loginController.text,
+              'password': _passController.text,
+            }),
+          )
+          .then(_loginResponse);
+    }
+  }
+
+  void _loginResponse(response) async {
+    await Future.delayed(const Duration(seconds: 1));
+    setState(() {
+      _inprogress = false;
+    });
+    switch (response.statusCode) {
+      case 200:
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => Screen(
-              user: User('Pabllo Vittar', '${_loginController.text}@email.com.br'),
+              user: User.fromJson(jsonDecode(response.body)),
             ),
           ),
         );
-      } else {
+        break;
+      case 401:
         setState(() {
           _invalidLogin = true;
+          _invalidMessage = jsonDecode(response.body)['message'];
         });
-      }
+        break;
+      default:
+        setState(() {
+          _serverError = true;
+        });
     }
   }
 
@@ -63,27 +100,32 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildBody() {
-    return Center(
-      child: Theme(
-        data: ThemeData(colorScheme: _colorScheme),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 50),
-          child: ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              _logo(),
-              if (_invalidLogin)
-                Text("Couldn't validate login information!",
-                    style: TextStyle(
-                      color: _colorScheme.onError,
-                      fontSize: 18,
-                    ),
-                    textAlign: TextAlign.center),
-              _form(),
-            ],
+    return Stack(
+      children: [
+        Center(
+          child: Theme(
+            data: ThemeData(colorScheme: _colorScheme),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 50),
+              child: ListView(
+                shrinkWrap: true,
+                children: <Widget>[
+                  _logo(),
+                  if (_invalidLogin)
+                    Text(_invalidMessage,
+                        style: TextStyle(
+                          color: _colorScheme.onError,
+                          fontSize: 18,
+                        ),
+                        textAlign: TextAlign.center),
+                  _form(),
+                ],
+              ),
+            ),
           ),
         ),
-      ),
+        if (_inprogress) InprogressIndicator(),
+      ],
     );
   }
 
