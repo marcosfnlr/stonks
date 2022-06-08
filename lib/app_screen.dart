@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stonks/stocks_screen.dart';
 
 import 'user.dart';
 import 'nav_option.dart';
@@ -74,7 +75,9 @@ class _ScreenState extends State<Screen> {
             ),
           ],
         ),
-        body: ProfileScreen(user: widget.user),
+        body: _selectedScreen == NavigationOption.stocks
+            ? const StocksScreen()
+            : ProfileScreen(user: widget.user),
         bottomNavigationBar: NavBar(
           selectedOption: _selectedScreen,
           onTap: onNavItemTap,
