@@ -124,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-        if (_inprogress) InprogressIndicator(),
+        if (_inprogress) const InprogressIndicator(),
       ],
     );
   }
