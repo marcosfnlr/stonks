@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:stonks/stocks_screen.dart';
 
@@ -6,6 +8,7 @@ import 'nav_option.dart';
 import 'nav_bar.dart';
 import 'login_screen.dart';
 import 'profile_screen.dart';
+import 'ticker.dart';
 
 class Screen extends StatefulWidget {
   const Screen({Key? key, required this.user}) : super(key: key);
@@ -75,8 +78,9 @@ class _ScreenState extends State<Screen> {
             ),
           ],
         ),
-        body: _selectedScreen == NavigationOption.stocks
-            ? const StocksScreen()
+        body: ![NavigationOption.profile, NavigationOption.home]
+                .contains(_selectedScreen)
+            ? StocksScreen(tickers: _mockTickers())
             : ProfileScreen(user: widget.user),
         bottomNavigationBar: NavBar(
           selectedOption: _selectedScreen,
@@ -84,5 +88,45 @@ class _ScreenState extends State<Screen> {
         ),
       ),
     );
+  }
+
+  List<Ticker> _mockTickers() {
+    return [
+      {
+        'symbol': 'PETR4.SA',
+        'name': 'Petróleo Brasileiro S.A.',
+      },
+      {
+        'symbol': 'PETR3.SA',
+        'name': 'Petrobras',
+      },
+      {
+        'symbol': 'VALE3.SA',
+        'name': 'Vale S.A.',
+      },
+      {
+        'symbol': 'BBAS3.SA',
+        'name': 'Banco do Brasil S.A.',
+      },
+      {
+        'symbol': 'PETR4.SA',
+        'name': 'Petróleo Brasileiro S.A.',
+      },
+      {
+        'symbol': 'PETR3.SA',
+        'name': 'Petrobras',
+      },
+      {
+        'symbol': 'VALE3.SA',
+        'name': 'Vale S.A.',
+      },
+      {
+        'symbol': 'BBAS3.SA',
+        'name': 'Banco do Brasil S.A.',
+      },
+    ]
+        .map((tick) => Ticker(
+            tick['symbol']!, tick['name']!, Random().nextDouble() * 10 - 5))
+        .toList();
   }
 }
