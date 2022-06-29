@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'app_screen.dart';
-import 'user.dart';
 import 'inprogress_indicator.dart';
+import 'spacing.dart';
+import 'stonks_logo.dart';
+import 'user.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -110,7 +112,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: ListView(
                 shrinkWrap: true,
                 children: <Widget>[
-                  _logo(),
+                  StonksLogo(color: _colorScheme.primary, size: 100),
+                  const SizedBox(height: Spacing.large),
                   if (_invalidLogin)
                     Text(_invalidMessage,
                         style: TextStyle(
@@ -118,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontSize: 18,
                         ),
                         textAlign: TextAlign.center),
-                  _form(),
+                  _buildForm(),
                 ],
               ),
             ),
@@ -129,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _form() {
+  Widget _buildForm() {
     return Form(
       key: _formKey,
       child: Column(
@@ -177,30 +180,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _logo() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          padding: const EdgeInsets.all(5),
-          margin: const EdgeInsets.only(bottom: 20),
-          decoration: BoxDecoration(
-            border: Border(
-              left: BorderSide(width: 7.0, color: _colorScheme.primary),
-              bottom: BorderSide(width: 7.0, color: _colorScheme.primary),
-            ),
-          ),
-          child: Icon(
-            Icons.trending_up,
-            color: _colorScheme.primary,
-            size: 100.0,
-            semanticLabel: 'Stonks Logo',
-          ),
-        ),
-      ],
     );
   }
 }
