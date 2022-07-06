@@ -124,9 +124,6 @@ class _ScreenState extends State<Screen> {
         'symbol': 'BBAS3.SA',
         'name': 'Banco do Brasil S.A.',
       },
-    ]
-        .map((tick) => Ticker(
-            tick['symbol']!, tick['name']!, Random().nextDouble() * 10 - 5))
-        .toList();
+    ].map((tick) => Ticker(tick['symbol']!, tick['name']!)).toList();
   }
 }
