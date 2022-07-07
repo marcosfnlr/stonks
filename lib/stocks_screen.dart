@@ -42,23 +42,25 @@ class _StocksScreenState extends State<StocksScreen> {
     const animationDuration = 150;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
+        final hasInfo = _selectedTicker != null;
         return Column(
           children: [
-            //TODO put everything on the same animated container
-            _selectedTicker == null
-                ? SizedBox(
-                    height: _stockInfoContainerHeight(constraints),
-                    child: Center(
-                      child: StonksLogo(
-                          color:
-                              Theme.of(context).colorScheme.secondaryContainer,
-                          size: _stockInfoContainerHeight(constraints) / 2),
-                    ),
-                  )
-                : GestureDetector(
-                    onTapDown: _focusStockInfo(true),
-                    child: _buildStockInfo(animationDuration, constraints),
-                  ),
+            GestureDetector(
+              onTapDown: hasInfo ? _focusStockInfo(true) : null,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: animationDuration),
+                height: _stockInfoContainerHeight(constraints),
+                child: hasInfo
+                    ? _buildStockInfo(constraints)
+                    : Center(
+                        child: StonksLogo(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                            size: _stockInfoContainerHeight(constraints) / 2),
+                      ),
+              ),
+            ),
             GestureDetector(
               onTapDown: _focusStockInfo(false),
               child: _buildTickerList(animationDuration, constraints),
@@ -69,64 +71,60 @@ class _StocksScreenState extends State<StocksScreen> {
     );
   }
 
-  Widget _buildStockInfo(int animationDuration, BoxConstraints constraints) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: animationDuration),
-      height: _stockInfoContainerHeight(constraints),
-      child: ListView(
-        physics: _isStockInfoFocused
-            ? const ClampingScrollPhysics()
-            : const NeverScrollableScrollPhysics(),
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: Spacing.large,
-              horizontal: Spacing.medium,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildCurrentValueInfo(),
-                _buildChangeInfo(),
-                const SizedBox(
-                  height: Spacing.large,
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: _buildPeriodsChips(),
-                  ),
-                ),
-                const SizedBox(
-                  height: Spacing.large,
-                ),
-                SizedBox(
-                  height: 250.0,
-                  child: StackedAreaLineChart(
-                    _chartData!,
-                    dateFormater: _shownPeriod.dateFormatter,
-                    onSelectionChanged: _focusStockInfo(true),
-                  ),
-                ),
-                const SizedBox(
-                  height: Spacing.large,
-                ),
-                LabeledInfo(
-                  label: 'Symbol',
-                  info: _selectedTicker!.symbol,
-                ),
-                const SizedBox(
-                  height: Spacing.small,
-                ),
-                LabeledInfo(
-                  label: 'Name',
-                  info: _selectedTicker!.name,
-                ),
-              ],
-            ),
+  Widget _buildStockInfo(BoxConstraints constraints) {
+    return ListView(
+      physics: _isStockInfoFocused
+          ? const ClampingScrollPhysics()
+          : const NeverScrollableScrollPhysics(),
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: Spacing.large,
+            horizontal: Spacing.medium,
           ),
-        ],
-      ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildCurrentValueInfo(),
+              _buildChangeInfo(),
+              const SizedBox(
+                height: Spacing.large,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: _buildPeriodsChips(),
+                ),
+              ),
+              const SizedBox(
+                height: Spacing.large,
+              ),
+              SizedBox(
+                height: 250.0,
+                child: StackedAreaLineChart(
+                  _chartData!,
+                  dateFormater: _shownPeriod.dateFormatter,
+                  onSelectionChanged: _focusStockInfo(true),
+                ),
+              ),
+              const SizedBox(
+                height: Spacing.large,
+              ),
+              LabeledInfo(
+                label: 'Symbol',
+                info: _selectedTicker!.symbol,
+              ),
+              const SizedBox(
+                height: Spacing.small,
+              ),
+              LabeledInfo(
+                label: 'Name',
+                info: _selectedTicker!.name,
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
