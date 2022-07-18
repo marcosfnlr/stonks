@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       http
           .post(
-            Uri.parse('http://localhost:5000/auth/login'),
+            Uri.parse('http://localhost:3000/login'),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
