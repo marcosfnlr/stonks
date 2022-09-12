@@ -1,14 +1,14 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:stonks/stocks_screen.dart';
 
-import 'user.dart';
-import 'nav_option.dart';
 import 'nav_bar.dart';
-import 'login_screen.dart';
-import 'profile_screen.dart';
-import 'ticker.dart';
+import 'login/login_screen.dart';
+import 'profile/profile_screen.dart';
+import 'stocks/stocks_screen.dart';
+import '../models/nav_option.dart';
+import '../models/ticker.dart';
+import '../models/user.dart';
 
 class Screen extends StatefulWidget {
   const Screen({Key? key, required this.user}) : super(key: key);

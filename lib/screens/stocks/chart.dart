@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
 
-import 'tick_data.dart';
+import '../../models/tick_data.dart';
 
 class StackedAreaLineChart extends StatelessWidget {
   final List<charts.Series<TickData, int>> _seriesList;

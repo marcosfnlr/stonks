@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'app_screen.dart';
-import 'inprogress_indicator.dart';
-import 'spacing.dart';
-import 'stonks_logo.dart';
-import 'user.dart';
+import '../app_screen.dart';
+import '../../components/inprogress_indicator.dart';
+import '../../components/stonks_logo.dart';
+import '../../models/spacing.dart';
+import '../../models/user.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

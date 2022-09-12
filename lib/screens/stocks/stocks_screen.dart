@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'chart.dart';
-import 'labeled_info.dart';
-import 'spacing.dart';
-import 'stocks_period_options.dart';
-import 'stonks_logo.dart';
-import 'tick_data.dart';
-import 'ticker.dart';
+import '../../components/labeled_info.dart';
+import '../../components/stonks_logo.dart';
+import '../../models/spacing.dart';
+import '../../models/stocks_period_options.dart';
+import '../../models/tick_data.dart';
+import '../../models/ticker.dart';
 
 class StocksScreen extends StatefulWidget {
   const StocksScreen({

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'nav_option.dart';
+import '../models/nav_option.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({Key? key, required this.selectedOption, required this.onTap})

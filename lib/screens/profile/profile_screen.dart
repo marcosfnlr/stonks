@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'labeled_info.dart';
 import 'security_panel.dart';
-import 'spacing.dart';
-import 'user.dart';
+import '../../components/labeled_info.dart';
+import '../../models/spacing.dart';
+import '../../models/user.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'spacing.dart';
+import '../models/spacing.dart';
 
 class LabeledInfo extends StatelessWidget {
   const LabeledInfo({

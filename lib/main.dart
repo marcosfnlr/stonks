@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:our_structures/our_structures.dart';
 
-import 'login_screen.dart';
+import 'screens/login/login_screen.dart';
 
 void main() {
   runApp(const StonksApp());

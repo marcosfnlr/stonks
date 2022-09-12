@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 enum NavigationOption {
-  profile,
+  dummy,
   home,
   stocks,
-  dummy,
+  profile,
 }
 
 extension NavigationOptionExtension on NavigationOption {
