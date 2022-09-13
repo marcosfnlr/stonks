@@ -19,7 +19,7 @@ class NavBar extends StatelessWidget {
             (opt) => BottomNavigationBarItem(
               icon: opt.icon,
               label: opt.label,
-              backgroundColor: opt.colors.primary,
+              backgroundColor: Theme.of(context).colorScheme.primary,
             ),
           )
           .toList(),

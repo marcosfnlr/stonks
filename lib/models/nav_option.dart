@@ -33,29 +33,4 @@ extension NavigationOptionExtension on NavigationOption {
         return 'Volley';
     }
   }
-
-  ColorScheme get colors {
-    switch (this) {
-      case NavigationOption.profile:
-        return ColorScheme.fromSeed(
-          seedColor: const Color(0xffFA58B6),
-          brightness: Brightness.dark,
-          primary: const Color(0xffFA58B6),
-        );
-      case NavigationOption.home:
-        return ColorScheme.fromSeed(
-          seedColor: const Color(0xff7A0BC0),
-        );
-      case NavigationOption.stocks:
-        return ColorScheme.fromSeed(
-          seedColor: const Color(0xff0B09A0),
-        );
-      default:
-        return ColorScheme.fromSeed(
-          seedColor: Colors.green,
-          brightness: Brightness.dark,
-          primary: Colors.green,
-        );
-    }
-  }
 }

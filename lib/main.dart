@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 // import 'package:our_structures/our_structures.dart';
 
+import 'theme/style.dart';
+import 'models/selected_theme.dart';
 import 'screens/login/login_screen.dart';
 
 void main() {
@@ -12,8 +15,20 @@ class StonksApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: LoginScreen(),
+    return ChangeNotifierProvider<SelectedTheme>(
+      create: (context) {
+        SelectedTheme selectedTheme = SelectedTheme();
+        selectedTheme.loadPreference();
+        return selectedTheme;
+      },
+      child: Consumer<SelectedTheme>(
+        builder: (BuildContext context, SelectedTheme batata, Widget? child) {
+          return MaterialApp(
+            theme: Style.themeData(batata.isDarkTheme),
+            home: const LoginScreen(),
+          );
+        },
+      ),
     );
   }
 }
