@@ -55,25 +55,19 @@ class _ScreenState extends State<Screen> {
 
   @override
   Widget build(BuildContext context) {
+    final SelectedTheme selectedTheme =
+        Provider.of<SelectedTheme>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.user.name),
         actions: <Widget>[
-          Consumer<SelectedTheme>(
-            builder: (
-              BuildContext context,
-              SelectedTheme selectedTheme,
-              Widget? child,
-            ) {
-              return IconButton(
-                icon: Icon(selectedTheme.isDarkTheme
-                    ? Icons.dark_mode
-                    : Icons.dark_mode_outlined),
-                tooltip: 'Dark Mode',
-                onPressed: () =>
-                    selectedTheme.isDarkTheme = !selectedTheme.isDarkTheme,
-              );
-            },
+          IconButton(
+            icon: Icon(selectedTheme.isDarkTheme
+                ? Icons.dark_mode
+                : Icons.dark_mode_outlined),
+            tooltip: 'Dark Mode',
+            onPressed: () =>
+                selectedTheme.isDarkTheme = !selectedTheme.isDarkTheme,
           ),
           IconButton(
             icon: const Icon(Icons.logout),
