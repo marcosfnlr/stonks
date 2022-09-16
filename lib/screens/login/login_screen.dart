@@ -2,12 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:stonks/screens/login/login_form.dart';
 
 import '../app_screen.dart';
 import '../../components/inprogress_indicator.dart';
 import '../../components/stonks_logo.dart';
 import '../../models/spacing.dart';
 import '../../models/user.dart';
+import '../../themes/style.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -17,32 +19,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _loginController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _invalidLogin = false;
   String _invalidMessage = 'Failed';
   bool _inprogress = false;
   bool _serverError = false;
-
-  final TextEditingController _loginController = TextEditingController();
-  final TextEditingController _passController = TextEditingController();
-
-  final ColorScheme _colorScheme = const ColorScheme(
-    primary: Color(0xffFA58B6),
-    surface: Color(0xff7A0BC0),
-    background: Color(0xff270082),
-    secondary: Color(0xff1A1A40),
-    error: Color.fromARGB(255, 255, 0, 221),
-    onPrimary: Color(0xff000000),
-    onSecondary: Color(0xff000000),
-    onSurface: Color(0xffffffff),
-    onBackground: Color(0xffffffff),
-    onError: Color(0xffffffff),
-    brightness: Brightness.dark,
-  );
-
-  bool validateLogin() {
-    return _loginController.text != 'a' || _passController.text != 'a';
-  }
 
   void _onLoginPressed() async {
     if (_formKey.currentState!.validate()) {
@@ -95,89 +78,40 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Style.loginThemeData();
     return Scaffold(
-      backgroundColor: _colorScheme.background,
-      body: _buildBody(),
-    );
-  }
-
-  Widget _buildBody() {
-    return Stack(
-      children: [
-        Center(
-          child: Theme(
-            data: ThemeData(colorScheme: _colorScheme),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 50),
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  StonksLogo(color: _colorScheme.primary, size: 100),
-                  const SizedBox(height: Spacing.large),
-                  if (_invalidLogin)
-                    Text(_invalidMessage,
-                        style: TextStyle(
-                          color: _colorScheme.onError,
-                          fontSize: 18,
-                        ),
-                        textAlign: TextAlign.center),
-                  _buildForm(),
-                ],
+      backgroundColor: theme.colorScheme.background,
+      body: Stack(
+        children: [
+          Center(
+            child: Theme(
+              data: theme,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 50),
+                child: ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    StonksLogo(color: theme.colorScheme.primary, size: 100),
+                    const SizedBox(height: Spacing.large),
+                    if (_invalidLogin)
+                      Text(_invalidMessage,
+                          style: TextStyle(
+                            color: theme.colorScheme.onError,
+                            fontSize: 18,
+                          ),
+                          textAlign: TextAlign.center),
+                    LoginForm(
+                      emailController: _loginController,
+                      passController: _passController,
+                      formKey: _formKey,
+                      onLoginPressed: _onLoginPressed,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        if (_inprogress) const InprogressIndicator(),
-      ],
-    );
-  }
-
-  Widget _buildForm() {
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          TextFormField(
-            controller: _loginController,
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              icon: Icon(Icons.person),
-              hintText: 'example@...',
-              labelText: 'Email',
-            ),
-            validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please, enter your email';
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              icon: Icon(Icons.password),
-              hintText: '********',
-              labelText: 'Password',
-            ),
-            controller: _passController,
-            obscureText: true,
-            enableSuggestions: false,
-            autocorrect: false,
-            validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please, enter your password';
-              }
-              return null;
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: ElevatedButton.icon(
-              onPressed: _onLoginPressed,
-              icon: const Text('Invest'),
-              label: const Icon(Icons.login),
-            ),
-          ),
+          if (_inprogress) const InprogressIndicator(),
         ],
       ),
     );

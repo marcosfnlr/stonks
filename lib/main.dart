@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:our_structures/our_structures.dart';
 
-import 'theme/style.dart';
 import 'models/selected_theme.dart';
 import 'screens/login/login_screen.dart';
+import 'themes/style.dart';
 
 void main() {
   runApp(const StonksApp());
