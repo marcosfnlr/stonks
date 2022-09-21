@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'nav_bar.dart';
 import 'login/login_screen.dart';
 import 'profile/profile_screen.dart';
 import 'stocks/stocks_screen.dart';
+import '../blocs/theme_change_bloc.dart';
 import '../models/nav_option.dart';
-import '../models/selected_theme.dart';
 import '../models/ticker.dart';
 import '../models/user.dart';
 
@@ -55,19 +55,17 @@ class _ScreenState extends State<Screen> {
 
   @override
   Widget build(BuildContext context) {
-    final SelectedTheme selectedTheme =
-        Provider.of<SelectedTheme>(context, listen: false);
+    final themeChangeBloc = BlocProvider.of<ThemeChangeBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.user.name),
         actions: <Widget>[
           IconButton(
-            icon: Icon(selectedTheme.isDarkTheme
+            icon: Icon(themeChangeBloc.state.isDark
                 ? Icons.dark_mode
                 : Icons.dark_mode_outlined),
             tooltip: 'Dark Mode',
-            onPressed: () =>
-                selectedTheme.isDarkTheme = !selectedTheme.isDarkTheme,
+            onPressed: () => themeChangeBloc.add(ToggleDarkness()),
           ),
           IconButton(
             icon: const Icon(Icons.logout),

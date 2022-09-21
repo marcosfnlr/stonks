@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:our_structures/our_structures.dart';
 
-import 'models/selected_theme.dart';
+import 'blocs/theme_change_bloc.dart';
+import 'blocs/theme_change_state.dart';
 import 'screens/login/login_screen.dart';
 import 'themes/style.dart';
 
@@ -15,16 +16,16 @@ class StonksApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<SelectedTheme>(
-      create: (context) {
-        SelectedTheme selectedTheme = SelectedTheme();
-        selectedTheme.loadPreference();
-        return selectedTheme;
+    return BlocProvider<ThemeChangeBloc>(
+      create: (_) {
+        ThemeChangeBloc bloc = ThemeChangeBloc();
+        bloc.add(LoadTheme());
+        return bloc;
       },
-      child: Consumer<SelectedTheme>(
-        builder: (BuildContext context, SelectedTheme batata, Widget? child) {
+      child: BlocBuilder<ThemeChangeBloc, ThemeChangeState>(
+        builder: (_, state) {
           return MaterialApp(
-            theme: Style.themeData(batata.isDarkTheme),
+            theme: Style.themeData(state.isDark),
             home: const LoginScreen(),
           );
         },
