@@ -1,24 +1,9 @@
 enum Currency {
-  usd,
-  brl,
-}
+  usd(label: 'USD', symbol: '\$'),
+  brl(label: 'BRL', symbol: 'R\$');
 
-extension CurrencyExtension on Currency {
-  String get label {
-    switch (this) {
-      case Currency.usd:
-        return 'USD';
-      case Currency.brl:
-        return 'BRL';
-    }
-  }
+  final String label;
+  final String symbol;
 
-  String get symbol {
-    switch (this) {
-      case Currency.usd:
-        return '\$';
-      case Currency.brl:
-        return 'R\$';
-    }
-  }
+  const Currency({required this.label, required this.symbol});
 }

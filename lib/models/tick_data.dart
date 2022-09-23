@@ -1,7 +1,6 @@
-class TickData{
-  DateTime date;
-  double value;
+class TickData {
+  final DateTime date;
+  final double value;
 
-  TickData(this.date, this.value);
-  
+  const TickData(this.date, this.value);
 }

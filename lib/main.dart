@@ -16,9 +16,9 @@ class StonksApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ThemeChangeBloc>(
+    return BlocProvider(
       create: (_) {
-        ThemeChangeBloc bloc = ThemeChangeBloc();
+        final bloc = ThemeChangeBloc();
         bloc.add(LoadTheme());
         return bloc;
       },

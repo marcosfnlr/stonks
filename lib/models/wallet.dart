@@ -1,8 +1,8 @@
 import 'currency.dart';
 
 class Wallet {
-  double balance;
-  Currency currency;
+  final double balance;
+  final Currency currency;
 
-  Wallet(this.balance, this.currency);
+  const Wallet(this.balance, this.currency);
 }

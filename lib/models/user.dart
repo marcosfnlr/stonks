@@ -2,14 +2,14 @@ import 'currency.dart';
 import 'wallet.dart';
 
 class User {
-  String name;
-  String email;
-  String preferredLanguage;
+  final String name;
+  final String email;
+  final String preferredLanguage;
   final Wallet _wallet;
 
-  User(this.name, this.email)
+  const User(this.name, this.email)
       : preferredLanguage = 'English',
-        _wallet = Wallet(49.07, Currency.brl);
+        _wallet = const Wallet(49.07, Currency.brl);
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(json['name']!, json['email']!);

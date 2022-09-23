@@ -1,61 +1,61 @@
 import 'package:intl/intl.dart';
 
+const _monthDayDateFormat = "MMM dd";
+const _monthYearDateFormat = "MMM yyyy";
+const _yearDateFormat = "yyyy";
+
 enum StocksPeriodOption {
-  oneMonth,
-  sixMonths,
-  ytd,
-  oneYear,
-  fiveYears,
-  max,
-}
+  oneMonth(
+    timeInterval: 'past month',
+    buttonLabel: '1M',
+    dateFormat: _monthDayDateFormat,
+    durationInDays: 30,
+  ),
+  sixMonths(
+    timeInterval: 'past 6 months',
+    buttonLabel: '6M',
+    dateFormat: _monthYearDateFormat,
+    durationInDays: 180,
+  ),
+  ytd(
+    timeInterval: 'year to date',
+    buttonLabel: 'YTD',
+    dateFormat: _monthYearDateFormat,
+  ),
+  oneYear(
+    timeInterval: 'past year',
+    buttonLabel: '1Y',
+    dateFormat: _monthYearDateFormat,
+    durationInDays: 365,
+  ),
+  fiveYears(
+    timeInterval: 'past 5 years',
+    buttonLabel: '5Y',
+    dateFormat: _yearDateFormat,
+    durationInDays: 5 * 365,
+  ),
+  max(
+    timeInterval: 'all time',
+    buttonLabel: 'Max',
+    dateFormat: _yearDateFormat,
+  ),
+  ;
 
-extension StocksPeriodOptionExtension on StocksPeriodOption {
-  String get timeInterval {
-    switch (this) {
-      case StocksPeriodOption.oneMonth:
-        return 'past month';
-      case StocksPeriodOption.sixMonths:
-        return 'past 6 months';
-      case StocksPeriodOption.ytd:
-        return 'year to date';
-      case StocksPeriodOption.oneYear:
-        return 'past year';
-      case StocksPeriodOption.fiveYears:
-        return 'past 5 years';
-      case StocksPeriodOption.max:
-        return 'all time';
-    }
-  }
+  final String timeInterval;
+  final String buttonLabel;
+  final String _dateFormat;
+  final int? _durationInDays;
 
-  String get buttonLabel {
-    switch (this) {
-      case StocksPeriodOption.oneMonth:
-        return '1M';
-      case StocksPeriodOption.sixMonths:
-        return '6M';
-      case StocksPeriodOption.ytd:
-        return 'YTD';
-      case StocksPeriodOption.oneYear:
-        return '1Y';
-      case StocksPeriodOption.fiveYears:
-        return '5Y';
-      case StocksPeriodOption.max:
-        return 'Max';
-    }
-  }
+  const StocksPeriodOption({
+    required this.timeInterval,
+    required this.buttonLabel,
+    required dateFormat,
+    durationInDays,
+  })  : _dateFormat = dateFormat,
+        _durationInDays = durationInDays;
 
   DateFormat get dateFormatter {
-    switch (this) {
-      case StocksPeriodOption.oneMonth:
-        return DateFormat("MMM dd");
-      case StocksPeriodOption.sixMonths:
-      case StocksPeriodOption.ytd:
-      case StocksPeriodOption.oneYear:
-        return DateFormat("MMM yyyy");
-      case StocksPeriodOption.fiveYears:
-      case StocksPeriodOption.max:
-        return DateFormat("yyyy");
-    }
+    return DateFormat(_dateFormat);
   }
 
   String Function(String) _startFromEndBuilder(int days) => (String endDate) {
@@ -65,19 +65,13 @@ extension StocksPeriodOptionExtension on StocksPeriodOption {
       };
 
   String Function(String) get startFromEnd {
-    switch (this) {
-      case StocksPeriodOption.oneMonth:
-        return _startFromEndBuilder(30);
-      case StocksPeriodOption.sixMonths:
-        return _startFromEndBuilder(180);
-      case StocksPeriodOption.ytd:
-        return (endDate) => "${DateTime.parse(endDate).year}-01-01";
-      case StocksPeriodOption.oneYear:
-        return _startFromEndBuilder(365);
-      case StocksPeriodOption.fiveYears:
-        return _startFromEndBuilder(5 * 365);
-      case StocksPeriodOption.max:
-        return (_) => "1500-01-01";
+    if (this == StocksPeriodOption.ytd) {
+      return (endDate) => "${DateTime.parse(endDate).year}-01-01";
     }
+    if (this == StocksPeriodOption.max) {
+      return (_) => "1500-01-01";
+    }
+    assert(_durationInDays != null);
+    return _startFromEndBuilder(_durationInDays!);
   }
 }
