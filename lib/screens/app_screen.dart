@@ -5,7 +5,7 @@ import 'nav_bar.dart';
 import 'login/login_screen.dart';
 import 'profile/profile_screen.dart';
 import 'stocks/stocks_screen.dart';
-import '../blocs/theme_change_bloc.dart';
+import '../blocs/theme/theme_change_bloc.dart';
 import '../models/nav_option.dart';
 import '../models/ticker.dart';
 import '../models/user.dart';
@@ -42,7 +42,7 @@ class _ScreenState extends State<Screen> {
           onPressed: () => Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => const LoginScreen(),
+              builder: (context) => LoginScreen(),
             ),
             ((_) => false),
           ),

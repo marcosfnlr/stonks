@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../blocs/login/login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
   final TextEditingController _emailController;
   final TextEditingController _passController;
   final Key _formKey;
-  final void Function() _onLoginPressed;
 
   const LoginForm({
     Key? key,
     required TextEditingController emailController,
     required TextEditingController passController,
     required Key formKey,
-    required void Function() onLoginPressed,
   })  : _emailController = emailController,
         _passController = passController,
         _formKey = formKey,
-        _onLoginPressed = onLoginPressed,
         super(key: key);
 
   @override
@@ -60,7 +60,8 @@ class LoginForm extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: ElevatedButton.icon(
-              onPressed: _onLoginPressed,
+              onPressed: () =>
+                  BlocProvider.of<LoginBloc>(context).add(FormSubmit()),
               icon: const Text('Invest'),
               label: const Icon(Icons.login),
             ),

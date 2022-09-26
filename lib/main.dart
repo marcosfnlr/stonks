@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:our_structures/our_structures.dart';
 
-import 'blocs/theme_change_bloc.dart';
-import 'blocs/theme_change_state.dart';
+import 'blocs/theme/theme_change_bloc.dart';
+import 'blocs/theme/theme_change_state.dart';
 import 'screens/login/login_screen.dart';
 import 'themes/style.dart';
 
@@ -26,7 +26,7 @@ class StonksApp extends StatelessWidget {
         builder: (_, state) {
           return MaterialApp(
             theme: Style.themeData(state.isDark),
-            home: const LoginScreen(),
+            home: LoginScreen(),
           );
         },
       ),

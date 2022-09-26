@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'theme_change_state.dart';
-import '../preferences/selected_theme_preference.dart';
+import '../../preferences/selected_theme_preference.dart';
 
 abstract class ThemeChangeEvent {}
 
