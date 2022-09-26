@@ -26,7 +26,7 @@ class StonksApp extends StatelessWidget {
         builder: (_, state) {
           return MaterialApp(
             theme: Style.themeData(state.isDark),
-            home: LoginScreen(),
+            home: const LoginScreen(),
           );
         },
       ),

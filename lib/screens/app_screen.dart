@@ -42,7 +42,7 @@ class _ScreenState extends State<Screen> {
           onPressed: () => Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => LoginScreen(),
+              builder: (context) => const LoginScreen(),
             ),
             ((_) => false),
           ),
