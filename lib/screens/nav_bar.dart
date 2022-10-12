@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../models/nav_option.dart';
+import '../blocs/navigation/nav_bloc.dart';
+import '../blocs/navigation/nav_state.dart';
 
 class NavBar extends StatelessWidget {
-  const NavBar({Key? key, required this.selectedOption, required this.onTap})
-      : super(key: key);
-
-  final NavigationOption selectedOption;
-  final Function(int) onTap;
+  const NavBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: selectedOption.index,
-      onTap: onTap,
-      items: NavigationOption.values
-          .map(
-            (opt) => BottomNavigationBarItem(
-              icon: opt.icon,
-              label: opt.label,
-              backgroundColor: Theme.of(context).colorScheme.primary,
-            ),
-          )
-          .toList(),
+    return BlocBuilder<NavBloc, NavState>(
+      builder: (context, state) {
+        return BottomNavigationBar(
+          currentIndex: state.index,
+          onTap: (tappedIndex) => BlocProvider.of<NavBloc>(context)
+              .add(ScreenSelected(selectedIndex: tappedIndex)),
+          items: NavState.values
+              .map(
+                (state) => BottomNavigationBarItem(
+                  icon: state.icon,
+                  label: state.label,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                ),
+              )
+              .toList(),
+        );
+      },
     );
   }
 }
