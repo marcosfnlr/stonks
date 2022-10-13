@@ -11,16 +11,11 @@ import '../components/logout_alert.dart';
 import '../models/ticker.dart';
 import '../models/user.dart';
 
-class Screen extends StatefulWidget {
+class Screen extends StatelessWidget {
   const Screen({Key? key, required this.user}) : super(key: key);
 
   final User user;
 
-  @override
-  State<Screen> createState() => _ScreenState();
-}
-
-class _ScreenState extends State<Screen> {
   @override
   Widget build(BuildContext context) {
     final themeChangeBloc = BlocProvider.of<ThemeChangeBloc>(context);
@@ -28,7 +23,7 @@ class _ScreenState extends State<Screen> {
       create: (_) => NavBloc(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.user.name),
+          title: Text(user.name),
           actions: <Widget>[
             IconButton(
               icon: Icon(themeChangeBloc.state.isDark
@@ -51,7 +46,7 @@ class _ScreenState extends State<Screen> {
           builder: (context, state) {
             return ![NavState.profile, NavState.home].contains(state)
                 ? StocksScreen(tickers: _mockTickers())
-                : ProfileScreen(user: widget.user);
+                : ProfileScreen(user: user);
           },
         ),
         bottomNavigationBar: const NavBar(),
