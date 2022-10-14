@@ -4,7 +4,7 @@ const _monthDayDateFormat = "MMM dd";
 const _monthYearDateFormat = "MMM yyyy";
 const _yearDateFormat = "yyyy";
 
-enum StocksPeriodOption {
+enum StocksPeriodState {
   oneMonth(
     timeInterval: 'past month',
     buttonLabel: '1M',
@@ -46,7 +46,7 @@ enum StocksPeriodOption {
   final String _dateFormat;
   final int? _durationInDays;
 
-  const StocksPeriodOption({
+  const StocksPeriodState({
     required this.timeInterval,
     required this.buttonLabel,
     required dateFormat,
@@ -65,10 +65,10 @@ enum StocksPeriodOption {
       };
 
   String Function(String) get startFromEnd {
-    if (this == StocksPeriodOption.ytd) {
+    if (this == StocksPeriodState.ytd) {
       return (endDate) => "${DateTime.parse(endDate).year}-01-01";
     }
-    if (this == StocksPeriodOption.max) {
+    if (this == StocksPeriodState.max) {
       return (_) => "1500-01-01";
     }
     assert(_durationInDays != null);
