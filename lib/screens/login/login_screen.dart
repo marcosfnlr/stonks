@@ -1,27 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '/blocs/login/login_bloc.dart';
+import '/blocs/login/login_state.dart';
+import '/components/inprogress_indicator.dart';
+import '/components/stonks_logo.dart';
+import '/models/spacing.dart';
+import '/themes/style.dart';
 import 'login_form.dart';
-import '../../blocs/login/login_bloc.dart';
-import '../../blocs/login/login_state.dart';
-import '../../components/inprogress_indicator.dart';
-import '../../components/stonks_logo.dart';
-import '../../models/spacing.dart';
-import '../../themes/style.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _loginController = TextEditingController();
-
-  final TextEditingController _passController = TextEditingController();
-
-  final _formKey = GlobalKey<FormState>();
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +20,6 @@ class _LoginScreenState extends State<LoginScreen> {
       body: BlocProvider(
         create: (context) {
           return LoginBloc(
-            loginController: _loginController,
-            passController: _passController,
-            formKey: _formKey,
             navigator: Navigator.of(context),
           );
         },
@@ -59,11 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontSize: 18,
                                 ),
                                 textAlign: TextAlign.center),
-                          LoginForm(
-                            emailController: _loginController,
-                            passController: _passController,
-                            formKey: _formKey,
-                          ),
+                          const LoginForm(),
                         ],
                       ),
                     ),

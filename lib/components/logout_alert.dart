@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../screens/login/login_screen.dart';
+import '/screens/login/login_screen.dart';
 
 class LogoutAlert extends StatelessWidget {
-  const LogoutAlert({
-    Key? key,
-  }) : super(key: key);
+  const LogoutAlert({super.key});
 
   @override
   Widget build(BuildContext context) {

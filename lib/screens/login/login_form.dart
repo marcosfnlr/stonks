@@ -1,32 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../blocs/login/login_bloc.dart';
+import '/blocs/login/login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
-  final TextEditingController _emailController;
-  final TextEditingController _passController;
-  final Key _formKey;
-
-  const LoginForm({
-    Key? key,
-    required TextEditingController emailController,
-    required TextEditingController passController,
-    required Key formKey,
-  })  : _emailController = emailController,
-        _passController = passController,
-        _formKey = formKey,
-        super(key: key);
+  const LoginForm({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final loginBloc = BlocProvider.of<LoginBloc>(context);
     return Form(
-      key: _formKey,
+      key: loginBloc.formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           TextFormField(
-            controller: _emailController,
+            controller: loginBloc.emailController,
             keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
               icon: Icon(Icons.person),
@@ -46,7 +35,7 @@ class LoginForm extends StatelessWidget {
               hintText: '********',
               labelText: 'Password',
             ),
-            controller: _passController,
+            controller: loginBloc.passController,
             obscureText: true,
             enableSuggestions: false,
             autocorrect: false,
