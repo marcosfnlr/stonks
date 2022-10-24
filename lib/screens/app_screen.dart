@@ -2,27 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '/blocs/navigation/nav_bloc.dart';
-import '/blocs/theme/theme_change_bloc.dart';
 import '/blocs/navigation/nav_state.dart';
+import '/blocs/theme/theme_change_bloc.dart';
+import '/blocs/userdata/user_data_bloc.dart';
 import '/components/logout_alert.dart';
 import '/models/user.dart';
-import 'profile/profile_screen.dart';
-import 'stocks/stocks_screen.dart';
 import 'nav_bar.dart';
 
-class Screen extends StatelessWidget {
-  const Screen({Key? key, required this.user}) : super(key: key);
+class AppScreen extends StatelessWidget {
+  const AppScreen({Key? key, required this.user}) : super(key: key);
 
   final User user;
 
   @override
   Widget build(BuildContext context) {
     final themeChangeBloc = BlocProvider.of<ThemeChangeBloc>(context);
-    return BlocProvider(
-      create: (_) => NavBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => NavBloc(),
+        ),
+        BlocProvider(
+          create: (_) => UserDataBloc(user: user),
+        ),
+      ],
       child: Scaffold(
         appBar: AppBar(
-          title: Text(user.name),
+          title: BlocBuilder<UserDataBloc, UserDataState>(
+            builder: (context, state) => Text(state.user.name),
+          ),
           actions: <Widget>[
             IconButton(
               icon: Icon(themeChangeBloc.state.isDark
@@ -43,9 +51,7 @@ class Screen extends StatelessWidget {
         ),
         body: BlocBuilder<NavBloc, NavState>(
           builder: (context, state) {
-            return ![NavState.profile, NavState.home].contains(state)
-                ? const StocksScreen()
-                : ProfileScreen(user: user);
+            return state.screen;
           },
         ),
         bottomNavigationBar: const NavBar(),

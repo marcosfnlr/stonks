@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '/models/user.dart';
-import '/screens/app_screen.dart';
+import '/routes/routes.dart';
 import 'login_state.dart';
 
 abstract class LoginEvent {}
@@ -50,12 +50,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     switch (response.statusCode) {
       case 200:
-        _navigator.pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => Screen(
-              user: User.fromJson(jsonDecode(response.body)),
-            ),
-          ),
+        _navigator.pushReplacementNamed(
+          Routes.app.name,
+          arguments: User.fromJson(jsonDecode(response.body)),
         );
         break;
       case 401:

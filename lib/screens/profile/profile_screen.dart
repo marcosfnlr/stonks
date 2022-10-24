@@ -1,19 +1,18 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '/blocs/userdata/user_data_bloc.dart';
+import '/components/labeled_info.dart';
+import '/models/spacing.dart';
 import 'security_panel.dart';
-import '../../components/labeled_info.dart';
-import '../../models/spacing.dart';
-import '../../models/user.dart';
+import 'wallet_card.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({
     Key? key,
-    required this.user,
   }) : super(key: key);
-
-  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +40,16 @@ class ProfileScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      _walletCard(
-                        context,
-                        prefix: user.currencySymbol,
-                        mainText: user.balance.toStringAsFixed(2),
-                        label: '(${user.currencyLabel})',
-                        alignment: MainAxisAlignment.end,
+                      BlocBuilder<UserDataBloc, UserDataState>(
+                        builder: (context, state) => WalletCard(
+                          prefix: state.user.currencySymbol,
+                          mainText: state.user.balance.toStringAsFixed(2),
+                          label: '(${state.user.currencyLabel})',
+                          alignment: MainAxisAlignment.end,
+                        ),
                       ),
                       const VerticalDivider(),
-                      _walletCard(
-                        context,
+                      WalletCard(
                         prefix: isPos ? '+' : '-',
                         mainText: '4.71',
                         label: 'past month',
@@ -79,9 +78,11 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      Text(
-                        user.name,
-                        style: Theme.of(context).textTheme.headlineSmall,
+                      BlocBuilder<UserDataBloc, UserDataState>(
+                        builder: (context, state) => Text(
+                          state.user.name,
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
                       ),
                       const SizedBox(
                         height: Spacing.medium,
@@ -94,19 +95,25 @@ class ProfileScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                LabeledInfo(
-                                  label: 'Email',
-                                  info: user.email,
+                                BlocBuilder<UserDataBloc, UserDataState>(
+                                  builder: (context, state) => LabeledInfo(
+                                    label: 'Email',
+                                    info: state.user.email,
+                                  ),
                                 ),
                                 const SizedBox(height: Spacing.small),
-                                LabeledInfo(
-                                  label: 'Language',
-                                  info: user.preferredLanguage,
+                                BlocBuilder<UserDataBloc, UserDataState>(
+                                  builder: (context, state) => LabeledInfo(
+                                    label: 'Language',
+                                    info: state.user.preferredLanguage,
+                                  ),
                                 ),
                                 const SizedBox(height: Spacing.small),
-                                LabeledInfo(
-                                  label: 'Currency',
-                                  info: user.currencyString,
+                                BlocBuilder<UserDataBloc, UserDataState>(
+                                  builder: (context, state) => LabeledInfo(
+                                    label: 'Currency',
+                                    info: state.user.currencyString,
+                                  ),
                                 ),
                               ],
                             ),
@@ -146,68 +153,6 @@ class ProfileScreen extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-
-  Widget _walletCard(
-    BuildContext context, {
-    String mainText = '',
-    String? prefix,
-    String? label,
-    IconData? icon,
-    bool? succed,
-    MainAxisAlignment alignment = MainAxisAlignment.start,
-  }) {
-    var mainStyle = Theme.of(context).textTheme.headlineMedium!;
-    var prefixStyle = Theme.of(context).textTheme.titleLarge!;
-    var labelStyle = Theme.of(context).textTheme.labelMedium!;
-    if (succed != null) {
-      mainStyle = mainStyle.copyWith(
-        color: succed ? Colors.green[700] : Colors.red[700],
-      );
-      prefixStyle = prefixStyle.copyWith(
-        color: succed ? Colors.green[700] : Colors.red[700],
-      );
-      labelStyle = labelStyle.copyWith(
-        color: succed ? Colors.green : Colors.red,
-      );
-    }
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(Spacing.medium),
-        child: Row(
-          mainAxisAlignment: alignment,
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                RichText(
-                  text: TextSpan(
-                    text: '$prefix ',
-                    style: prefixStyle,
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: mainText,
-                        style: mainStyle,
-                      ),
-                    ],
-                  ),
-                ),
-                if (label != null)
-                  Text(
-                    label,
-                    style: labelStyle,
-                  ),
-              ],
-            ),
-            if (icon != null)
-              Icon(
-                icon,
-                color: mainStyle.color,
-                size: mainStyle.fontSize,
-              ),
-          ],
-        ),
-      ),
     );
   }
 }

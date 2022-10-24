@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'blocs/theme/theme_change_bloc.dart';
 import 'blocs/theme/theme_change_state.dart';
-import 'screens/login/login_screen.dart';
+import 'routes/routes.dart';
 import 'themes/style.dart';
 
 void main() {
@@ -24,7 +24,8 @@ class StonksApp extends StatelessWidget {
         builder: (_, state) {
           return MaterialApp(
             theme: Style.themeData(state.isDark),
-            home: const LoginScreen(),
+            routes: Routes.buildMap(),
+            initialRoute: Routes.login.name,
           );
         },
       ),
