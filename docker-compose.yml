@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  stonkserver:
+    build: ../stonkserver/
+    container_name: stonkserver
+    ports:
+      - "3000:3000"
+    environment:
+      - FLASK_DEBUG=True
+    volumes:
+      - ../stonkservice/flaskr:/usr/src/app/flaskr
+  stonkservice:
+    build: ../stonkservice/
+    container_name: stonkservice
+    ports:
+      - "5000:5000"
