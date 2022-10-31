@@ -60,16 +60,13 @@ class StockInfoChangeBloc
       StocksPeriodState stocksPeriodOption,
       Emitter<StockInfoChangeState> emit) async {
     const pseudoToday = "2014-02-12";
-    final response = await http.post(
-      Uri.parse('http://localhost:5000/stocks/history'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        "ticker": ticker.symbol,
-        "start": stocksPeriodOption.startFromEnd(pseudoToday),
-        "end": pseudoToday
-      }),
+    final response = await http.get(
+      Uri.parse(
+        'http://localhost:5000/stocks/'
+        '${ticker.symbol}/history?'
+        'start=${stocksPeriodOption.startFromEnd(pseudoToday)}&'
+        'end=$pseudoToday',
+      ),
     );
 
     switch (response.statusCode) {
@@ -88,7 +85,8 @@ class StockInfoChangeBloc
         );
         containerSelectionBloc.add(StockInfoSelected());
         break;
-      case 401:
+      case 400:
+      case 404:
         //TODO
         break;
       default:
