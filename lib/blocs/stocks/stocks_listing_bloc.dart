@@ -68,7 +68,8 @@ class StocksListingBloc extends Bloc<StocksListingEvent, StocksListingState> {
       case 200:
         final stocks = List<Ticker>.from(
             (jsonDecode(response.body)['stocks'] as List<dynamic>)
-                .map((json) => Ticker.fromJson(json)));
+                .map((json) => Ticker.fromJson(json)))
+          ..sort((t1, t2) => t1.symbol.compareTo(t2.symbol));
         _tickers = stocks;
         emit(StocksListingState(shownTickers: stocks));
         break;
